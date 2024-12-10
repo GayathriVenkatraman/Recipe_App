@@ -1,6 +1,6 @@
 let recipeObject = {
   id: 1,
-  title: "Vegtable Biryani",
+  title: "Vegetable Biryani",
   picture_url: "./images/veg_biryani.jpeg",
   ingredients: [
     { NAME: "bay leaf", AMOUNT: "2" },
@@ -72,6 +72,7 @@ function displayRecipe(recipe) {
   recipeSection.appendChild(descriptionList);
 }
 const form = document.getElementById("add-recipe-form");
+
 function addNewRecipe(event) {
   event.preventDefault();
 
@@ -96,6 +97,27 @@ function addNewRecipe(event) {
   displayRecipe(recipeObject);
   form.reset();
 }
+function searchARecipe() {
+  const searchInput = document.getElementById("search-element");
+  const noResultsMessage = document.getElementById("no-results");
+  searchInput.addEventListener("input", (event) => {
+    const value = event.target.value.toLowerCase();
+    const recipeElements = document.querySelectorAll(".recipe");
+    let hasVisibleRecipes = false;
+    recipeElements.forEach((recipes) => {
+      const isVisible = recipes.title.toLowerCase().includes(value);
+      recipes.classList.toggle("hide", !isVisible);
+
+      if (isVisible) {
+        hasVisibleRecipes = true;
+      }
+    });
+    noResultsMessage.classList.toggle("hide", hasVisibleRecipes);
+  });
+}
+
 form.addEventListener("submit", addNewRecipe);
 
 displayRecipe(recipeObject);
+
+searchARecipe();

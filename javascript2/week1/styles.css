@@ -22,3 +22,13 @@ form button {
   border: none;
   cursor: pointer;
 }
+
+search-recipe {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+input {
+  font-size: 1rem;
+}
