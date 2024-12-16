@@ -27,51 +27,61 @@ let recipeObject = {
     "Wash basmati rice in clean water twice and soak it for 15-20 minutes. Heat oil in a thick bottom pan/ pressure cooker, add bay leaf, star anise, cloves, and cinnamon. Saute it for 1 minute. Add onions, saute for 2 to 3 mins till the onions turn translucent. Next add tomatoes, ginger-garlic paste and saute until the raw smell has gone off. Add all the chopped vegetables and fry for about 2 minutes. Next add salt, mint leaves, red chilli powder, turmeric, and garam masala. Mix all of these and fry it for 2 to 3 mins. Next, add water and bring it to a boil in a high flame. When it starts boiling, open the lid and add soaked basmati rice. Mix well and close the lid and allow it to boil again. Cook in low flame for 15 to 20 minutes. Now veg biryani is ready.",
 };
 
-function displayRecipe(recipe) {
+function displayRecipe() {
   const recipeSection = document.getElementById("recipe-section");
 
-  const recipeTitle = document.createElement("h1");
-  recipeTitle.textContent = recipe.title;
-  recipeSection.appendChild(recipeTitle);
+  recipes.forEach((recipe) => {
+    const recipeCard = document.createElement("div");
+    recipeCard.className = "recipe-card";
 
-  const recipeImage = document.createElement("img");
-  recipeImage.src = recipe.picture_url;
-  recipeImage.alt = recipe.title;
-  recipeSection.appendChild(recipeImage);
+    const recipeTitle = document.createElement("h1");
+    recipeTitle.textContent = recipe.title;
+    recipeCard.appendChild(recipeTitle);
 
-  const ingredientsHeading = document.createElement("h2");
-  ingredientsHeading.textContent = "Ingredients";
-  recipeSection.appendChild(ingredientsHeading);
+    const recipeImage = document.createElement("img");
+    recipeImage.src = recipe.picture_url;
+    recipeImage.alt = recipe.title;
+    recipeCard.appendChild(recipeImage);
 
-  const ingredientsList = document.createElement("ul");
-  ingredientsList.className = "ingredients";
+    const ingredientsHeading = document.createElement("h2");
+    ingredientsHeading.textContent = "Ingredients";
+    recipeCard.appendChild(ingredientsHeading);
 
-  for (let ingredient of recipe.ingredients) {
-    const listItem = document.createElement("li");
-    listItem.textContent = `${ingredient.NAME} - ${ingredient.AMOUNT}`;
-    ingredientsList.appendChild(listItem);
-  }
+    const ingredientsList = document.createElement("ul");
+    ingredientsList.className = "ingredients";
 
-  recipeSection.appendChild(ingredientsList);
-
-  const descriptionHeading = document.createElement("h2");
-  descriptionHeading.textContent = "Description";
-  recipeSection.appendChild(descriptionHeading);
-
-  const descriptionList = document.createElement("ul");
-  descriptionList.className = "description";
-  const descriptionItem = recipe.description.split(".");
-  for (let item of descriptionItem) {
-    const trimmedItem = item.trim();
-    if (trimmedItem) {
+    for (let ingredient of recipe.ingredients) {
       const listItem = document.createElement("li");
-      listItem.textContent = trimmedItem;
-      descriptionList.appendChild(listItem);
+      listItem.textContent = `${ingredient.NAME} - ${ingredient.AMOUNT}`;
+      ingredientsList.appendChild(listItem);
     }
-  }
-  recipeSection.appendChild(descriptionList);
+
+    recipeCard.appendChild(ingredientsList);
+
+    const descriptionHeading = document.createElement("h2");
+    descriptionHeading.textContent = "Description";
+    recipeCard.appendChild(descriptionHeading);
+
+    const descriptionList = document.createElement("ul");
+    descriptionList.className = "description";
+    const descriptionItem = recipe.description.split(".");
+    for (let item of descriptionItem) {
+      const trimmedItem = item.trim();
+      if (trimmedItem) {
+        const listItem = document.createElement("li");
+        listItem.textContent = trimmedItem;
+        descriptionList.appendChild(listItem);
+      }
+    }
+    recipeCard.appendChild(descriptionList);
+
+    recipeSection.appendChild(recipeCard);
+  });
 }
 const form = document.getElementById("add-recipe-form");
+
+let recipes = [];
+recipes.push(recipeObject);
 
 function addNewRecipe(event) {
   event.preventDefault();
@@ -86,18 +96,20 @@ function addNewRecipe(event) {
     return { NAME: name.trim(), AMOUNT: amount.trim() };
   });
 
-  recipeObject = {
-    id: recipeObject.id + 1,
+  const newRecipe = {
+    id: recipes.length + 1,
     title,
     picture_url,
     ingredients,
     description,
   };
 
-  displayRecipe(recipeObject);
+  recipes.push(newRecipe);
+
+  displayRecipe();
   form.reset();
 }
-function searchARecipe() {
+/*function searchARecipe() {
   const searchInput = document.getElementById("search-element");
   const noResultsMessage = document.getElementById("no-results");
   searchInput.addEventListener("input", (event) => {
@@ -114,10 +126,10 @@ function searchARecipe() {
     });
     noResultsMessage.classList.toggle("hide", hasVisibleRecipes);
   });
-}
+}*/
 
 form.addEventListener("submit", addNewRecipe);
 
-displayRecipe(recipeObject);
+displayRecipe();
 
-searchARecipe();
+//searchARecipe();
