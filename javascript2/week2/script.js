@@ -29,6 +29,7 @@ let recipeObject = {
 
 function displayRecipe() {
   const recipeSection = document.getElementById("recipe-section");
+  recipeSection.innerHTML = "";
 
   recipes.forEach((recipe) => {
     const recipeCard = document.createElement("div");
