@@ -27,11 +27,19 @@ let recipeObject = {
     "Wash basmati rice in clean water twice and soak it for 15-20 minutes. Heat oil in a thick bottom pan/ pressure cooker, add bay leaf, star anise, cloves, and cinnamon. Saute it for 1 minute. Add onions, saute for 2 to 3 mins till the onions turn translucent. Next add tomatoes, ginger-garlic paste and saute until the raw smell has gone off. Add all the chopped vegetables and fry for about 2 minutes. Next add salt, mint leaves, red chilli powder, turmeric, and garam masala. Mix all of these and fry it for 2 to 3 mins. Next, add water and bring it to a boil in a high flame. When it starts boiling, open the lid and add soaked basmati rice. Mix well and close the lid and allow it to boil again. Cook in low flame for 15 to 20 minutes. Now veg biryani is ready.",
 };
 
-function displayRecipe() {
+function displayRecipe(filteredRecipes = recipes) {
   const recipeSection = document.getElementById("recipe-section");
   recipeSection.innerHTML = "";
 
-  recipes.forEach((recipe) => {
+  if (filteredRecipes.length === 0) {
+    const noResultsMessage = document.createElement("p");
+    noResultsMessage.textContent = "No matching recipes found.";
+    noResultsMessage.className = "no-results";
+    recipeSection.appendChild(noResultsMessage);
+    return;
+  }
+
+  filteredRecipes.forEach((recipe) => {
     const recipeCard = document.createElement("div");
     recipeCard.className = "recipe-card";
 
@@ -110,27 +118,27 @@ function addNewRecipe(event) {
   displayRecipe();
   form.reset();
 }
-/*function searchARecipe() {
-  const searchInput = document.getElementById("search-element");
-  const noResultsMessage = document.getElementById("no-results");
-  searchInput.addEventListener("input", (event) => {
-    const value = event.target.value.toLowerCase();
-    const recipeElements = document.querySelectorAll(".recipe");
-    let hasVisibleRecipes = false;
-    recipeElements.forEach((recipes) => {
-      const isVisible = recipes.title.toLowerCase().includes(value);
-      recipes.classList.toggle("hide", !isVisible);
+function findRecipeByTitle(searchTitle) {
+  const searchLower = searchTitle.toLowerCase();
+  const filteredRecipes = recipes.filter((recipe) =>
+    recipe.title.toLowerCase().includes(searchLower)
+  );
 
-      if (isVisible) {
-        hasVisibleRecipes = true;
-      }
-    });
-    noResultsMessage.classList.toggle("hide", hasVisibleRecipes);
-  });
-}*/
+  displayRecipe(filteredRecipes);
+}
 
+const searchInput = document.getElementById("search-element");
+searchInput.addEventListener("input", (event) => {
+  const searchValue = event.target.value;
+  findRecipeByTitle(searchValue);
+});
+
+function sortRecipeByIngredientsCount() {
+  recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
+  displayRecipe();
+}
 form.addEventListener("submit", addNewRecipe);
 
-displayRecipe();
+sortRecipeByIngredientsCount();
 
-//searchARecipe();
+displayRecipe();
