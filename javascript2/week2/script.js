@@ -114,6 +114,7 @@ function addNewRecipe(event) {
   };
 
   recipes.push(newRecipe);
+  sortRecipeByIngredientsCount();
 
   displayRecipe();
   form.reset();
