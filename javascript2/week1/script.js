@@ -89,6 +89,16 @@ function addNewRecipe(event) {
     return { name: name.trim(), amount: amount.trim() };
   });
 
+  if (ingredients.length < 5) {
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent =
+      "Error: A recipe must have at least 5 ingredients.";
+    errorMessage.className = "error-message";
+    document.getElementById("recipe-section").innerHTML = "";
+    document.getElementById("recipe-section").appendChild(errorMessage);
+    return;
+  }
+
   recipeObject = {
     id: recipeObject.id + 1,
     title,
