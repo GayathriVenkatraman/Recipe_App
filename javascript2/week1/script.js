@@ -3,25 +3,25 @@ let recipeObject = {
   title: "Vegetable Biryani",
   picture_url: "./images/veg_biryani.jpeg",
   ingredients: [
-    { NAME: "bay leaf", AMOUNT: "2" },
-    { NAME: "cinnamon", AMOUNT: "2 inch" },
-    { NAME: "cloves", AMOUNT: "6" },
-    { NAME: "star anise", AMOUNT: "2" },
-    { NAME: "basmati rice", AMOUNT: "2 cups" },
-    { NAME: "green peas", AMOUNT: "1/4 cup" },
-    { NAME: "carrot chopped", AMOUNT: "1/4 cup" },
-    { NAME: "green beans chopped", AMOUNT: "1/4 cup" },
-    { NAME: "potatoes chopped", AMOUNT: "1/4 cup" },
-    { NAME: "onions chopped", AMOUNT: "2 medium sized" },
-    { NAME: "tomatoes chopped", AMOUNT: "2 small" },
-    { NAME: "chopped fresh mint", AMOUNT: "4 teaspoons" },
-    { NAME: "ginger garlic paste", AMOUNT: "2 teaspoon" },
-    { NAME: "red chili powder", AMOUNT: "1 teaspoon" },
-    { NAME: "turmeric powder", AMOUNT: "0.5 teaspoon" },
-    { NAME: "garam masala", AMOUNT: "1.5 teaspoon" },
-    { NAME: "oil", AMOUNT: "3-4 tablespoons" },
-    { NAME: "water ", AMOUNT: "3.5 cups" },
-    { NAME: "salt ", AMOUNT: "as required" },
+    { name: "bay leaf", amount: "2" },
+    { name: "cinnamon", amount: "2 inch" },
+    { name: "cloves", amount: "6" },
+    { name: "star anise", amount: "2" },
+    { name: "basmati rice", amount: "2 cups" },
+    { name: "green peas", amount: "1/4 cup" },
+    { name: "carrot chopped", amount: "1/4 cup" },
+    { name: "green beans chopped", amount: "1/4 cup" },
+    { name: "potatoes chopped", amount: "1/4 cup" },
+    { name: "onions chopped", amount: "2 medium sized" },
+    { name: "tomatoes chopped", amount: "2 small" },
+    { name: "chopped fresh mint", amount: "4 teaspoons" },
+    { name: "ginger garlic paste", amount: "2 teaspoon" },
+    { name: "red chili powder", amount: "1 teaspoon" },
+    { name: "turmeric powder", amount: "0.5 teaspoon" },
+    { name: "garam masala", amount: "1.5 teaspoon" },
+    { name: "oil", amount: "3-4 tablespoons" },
+    { name: "water ", amount: "3.5 cups" },
+    { name: "salt ", amount: "as required" },
   ],
   description:
     "Wash basmati rice in clean water twice and soak it for 15-20 minutes. Heat oil in a thick bottom pan/ pressure cooker, add bay leaf, star anise, cloves, and cinnamon. Saute it for 1 minute. Add onions, saute for 2 to 3 mins till the onions turn translucent. Next add tomatoes, ginger-garlic paste and saute until the raw smell has gone off. Add all the chopped vegetables and fry for about 2 minutes. Next add salt, mint leaves, red chilli powder, turmeric, and garam masala. Mix all of these and fry it for 2 to 3 mins. Next, add water and bring it to a boil in a high flame. When it starts boiling, open the lid and add soaked basmati rice. Mix well and close the lid and allow it to boil again. Cook in low flame for 15 to 20 minutes. Now veg biryani is ready.",
@@ -48,7 +48,7 @@ function displayRecipe(recipe) {
 
   for (let ingredient of recipe.ingredients) {
     const listItem = document.createElement("li");
-    listItem.textContent = `${ingredient.NAME} - ${ingredient.AMOUNT}`;
+    listItem.textContent = `${ingredient.name} - ${ingredient.amount}`;
     ingredientsList.appendChild(listItem);
   }
 
@@ -83,7 +83,7 @@ function addNewRecipe(event) {
 
   const ingredients = ingredientsInput.split(",").map((item) => {
     const [name, amount] = item.split("-");
-    return { NAME: name.trim(), AMOUNT: amount.trim() };
+    return { name: name.trim(), amount: amount.trim() };
   });
 
   recipeObject = {
