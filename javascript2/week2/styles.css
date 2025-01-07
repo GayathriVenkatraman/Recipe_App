@@ -73,3 +73,12 @@ input {
   margin-top: 10px;
   color: #555;
 }
+
+.recipe-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.recipe-item {
+  margin-bottom: 20px;
+}
