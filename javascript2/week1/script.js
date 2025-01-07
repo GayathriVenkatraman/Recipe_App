@@ -29,6 +29,9 @@ let recipeObject = {
 
 function displayRecipe(recipe) {
   const recipeSection = document.getElementById("recipe-section");
+  recipeSection.innerHTML = "";
+  recipeSection.tagName = "UL";
+  recipeSection.className = "recipe-list";
 
   const recipeTitle = document.createElement("h1");
   recipeTitle.textContent = recipe.title;
@@ -97,27 +100,7 @@ function addNewRecipe(event) {
   displayRecipe(recipeObject);
   form.reset();
 }
-function searchARecipe() {
-  const searchInput = document.getElementById("search-element");
-  const noResultsMessage = document.getElementById("no-results");
-  searchInput.addEventListener("input", (event) => {
-    const value = event.target.value.toLowerCase();
-    const recipeElements = document.querySelectorAll(".recipe");
-    let hasVisibleRecipes = false;
-    recipeElements.forEach((recipes) => {
-      const isVisible = recipes.title.toLowerCase().includes(value);
-      recipes.classList.toggle("hide", !isVisible);
-
-      if (isVisible) {
-        hasVisibleRecipes = true;
-      }
-    });
-    noResultsMessage.classList.toggle("hide", hasVisibleRecipes);
-  });
-}
 
 form.addEventListener("submit", addNewRecipe);
 
 displayRecipe(recipeObject);
-
-searchARecipe();
