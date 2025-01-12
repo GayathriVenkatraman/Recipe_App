@@ -160,3 +160,75 @@ form.addEventListener("submit", addNewRecipe);
 sortRecipeByIngredientsCount();
 
 displayRecipe();
+
+//!-----Cooking Timer----------!
+
+const timerInput = document.createElement("div");
+timerInput.innerHTML = `
+  <h2>Cooking Timer</h2>
+  <lable for="time-input">Enter time in minutes:</lable>
+  <input type="number" id="time-input" min="1" class="timer-input" />
+  <button id="start-timer">Start timer</button>
+  <div id="countdown"></div>`;
+
+document.body.appendChild(timerInput);
+
+const timeInput = document.getElementById("time-input");
+const startButton = document.getElementById("start-timer");
+const countDownDisplay = document.getElementById("countdown");
+
+let timer;
+
+function startCookingTimer() {
+  const timeInMinutes = parseInt(timeInput.value);
+
+  if (isNaN(timeInMinutes) || timeInMinutes <= 0) {
+    alert("Please enter a valid cooking time");
+  }
+
+  timeInput.disabled = true;
+  startButton.disabled = true;
+
+  let remainingTime = timeInMinutes * 60;
+
+  timer = setInterval(() => {
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
+
+    countDownDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}`;
+
+    remainingTime--;
+
+    if (remainingTime < 0) {
+      clearInterval(timer);
+      countDownDisplay.textContent = "Time is up";
+      alert("Cooking time is over. Your dish is ready");
+      playSound();
+      timeInput.disabled = false;
+      startButton.disabled = false;
+    }
+  }, 1000);
+}
+
+function playSound() {
+  const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+  audio.play();
+}
+
+startButton.addEventListener("click", startCookingTimer);
+
+const pageTimerDisplay = document.getElementById("page-timer");
+
+let pageTimeInSeconds = 0;
+
+function timeSpentOnThePage() {
+  pageTimeInSeconds++;
+  const minutes = Math.floor(pageTimeInSeconds / 60);
+  const seconds = pageTimeInSeconds % 60;
+
+  pageTimerDisplay.textContent = `Time spent on this page: ${
+    minutes > 0 ? `${minutes} minute(s) and ` : ""
+  }${seconds} second(s)`;
+}
+
+setInterval(timeSpentOnThePage, 1000);
