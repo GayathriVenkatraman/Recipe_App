@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Checker App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Recipe Checker</h1>
+
+    <div id="recipe-section"></div>
+    <h2>Add a new recipe</h2>
+
+    <form id="add-recipe-form">
+      <label for="recipe-title"
+        >Title:
+        <input
+          id="recipe-title"
+          placeholder="Enter your title for the recipe"
+          type="text"
+          required
+      /></label>
+      <label for="recipe-image"
+        >Picture_url:
+        <input
+          id="recipe-image"
+          placeholder="Enter the image link of your recipe"
+          type="text"
+          required
+      /></label>
+      <label for="recipe-ingredients"
+        >Ingredients:
+        <textarea
+          id="recipe-ingredients"
+          placeholder="Enter the ingredients like Name-Amount separated by commas"
+          required
+        ></textarea>
+      </label>
+      <label for="recipe-description"
+        >Description:
+        <textarea
+          id="recipe-description"
+          placeholder="Enter the description for your recipe"
+          required
+        ></textarea>
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
