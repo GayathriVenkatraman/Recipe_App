@@ -1,0 +1,6 @@
+{
+  "paneer": { "price": 19, "currency": "DKK" },
+  "garlic": { "price": 12, "currency": "DKK" },
+  "butter": { "price": 11.85, "currency": "DKK" },
+  "salt": { "price": 15, "currency": "DKK" }
+}
