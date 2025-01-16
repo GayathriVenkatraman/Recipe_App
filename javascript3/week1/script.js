@@ -88,31 +88,6 @@ function displayRecipe(filteredRecipes = recipes) {
   });
 }
 
-async function fetchIngredientPrice(ingredient) {
-  try {
-    const ingredientAPI =
-      "https://raw.githubusercontent.com/GayathriVenkatraman/gayathrivenkatraman.github.io/refs/heads/main/ingredientPrice.json";
-    const response = await fetch(ingredientAPI);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch ingredient price");
-    }
-    const priceData = await response.json();
-    const ingredientInfo = priceData[ingredient];
-
-    if (ingredientInfo) {
-      alert(
-        `The price of ${ingredient} is ${ingredientInfo.price} ${ingredientInfo.currency}.`
-      );
-    } else {
-      alert(`Price information for ${ingredient} is not available.`);
-    }
-  } catch (error) {
-    console.error(error);
-    alert(`Failed to fetch price for ${ingredient}. Please try again later.`);
-  }
-}
-
 const form = document.getElementById("add-recipe-form");
 function addNewRecipe(event) {
   event.preventDefault();
@@ -164,6 +139,57 @@ searchInput.addEventListener("input", (event) => {
   const searchValue = event.target.value;
   findRecipeByTitle(searchValue);
 });
+
+function searchIngredientName() {
+  const searchIngredient = document
+    .getElementById("ingredient-name")
+    .value.trim()
+    .toLowerCase();
+
+  const foundIngredients = recipes
+    .flatMap((recipe) => recipe.ingredients)
+    .filter((ingredient) =>
+      ingredient.name.toLowerCase().includes(searchIngredient)
+    );
+
+  const uniqueIngredients = [
+    ...new Map(foundIngredients.map((item) => [item.name, item])).values(),
+  ];
+
+  if (uniqueIngredients.length === 0) {
+    alert(`No ingredients found matching "${searchIngredient}".`);
+    return;
+  }
+
+  uniqueIngredients.forEach((ingredient) =>
+    fetchIngredientPrice(ingredient.name)
+  );
+}
+
+async function fetchIngredientPrice(ingredient) {
+  try {
+    const ingredientAPI =
+      "https://raw.githubusercontent.com/GayathriVenkatraman/gayathrivenkatraman.github.io/refs/heads/main/ingredientPrice.json";
+    const response = await fetch(ingredientAPI);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch ingredient price");
+    }
+    const priceData = await response.json();
+    const ingredientInfo = priceData[ingredient];
+
+    if (ingredientInfo) {
+      alert(
+        `The price of ${ingredient} is ${ingredientInfo.price} ${ingredientInfo.currency}.`
+      );
+    } else {
+      alert(`Price information for ${ingredient} is not available.`);
+    }
+  } catch (error) {
+    console.error(error);
+    alert(`Failed to fetch price for ${ingredient}. Please try again later.`);
+  }
+}
 
 function sortRecipeByIngredientsCount() {
   recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
