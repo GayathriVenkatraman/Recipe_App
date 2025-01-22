@@ -14,54 +14,45 @@
       <input type="search" name="search-bar" id="search-element" />
       <!---<p id="no-results" class="hide">No recipes found matching your search.</p>--->
     </div>
-    <div id="recipe-section"></div>
+    <div id="page-timer">Time spent on this page: 0 seconds</div>
+    <div id="controls">
+      <button id="sort-button">Sort Recipes by Ingredients</button>
+    </div>
     <div id="search-ingredient">
       <h2>Search for an Ingredient</h2>
       <label for="ingredient-name">Search for Ingredient</label>
       <input type="search" name="ingredient-name" id="ingredient-name" />
       <button type="submit" onclick="searchIngredientName()">Search</button>
     </div>
-    <h2>Add a new recipe</h2>
-
-    <form id="add-recipe-form">
-      <label for="recipe-title"
-        >Title:
+    <div id="recipe-section"></div>
+    <div id="add-recipe-form-container">
+      <form id="add-recipe-form">
+        <h2>Add a new recipe</h2>
+        <label for="recipe-title">Title:</label>
         <input
           id="recipe-title"
           placeholder="Enter your title for the recipe"
           type="text"
-          required
-      /></label>
-      <label for="recipe-image"
-        >Picture_url:
+        />
+        <label for="recipe-image">Picture_url:</label>
         <input
           id="recipe-image"
           placeholder="Enter the image link of your recipe"
           type="text"
-          required
-      /></label>
-      <label for="recipe-ingredients"
-        >Ingredients:
-        <textarea
-          id="recipe-ingredients"
-          placeholder="Enter the ingredients like Name-Amount separated by commas"
-          required
-        ></textarea>
-      </label>
-      <label for="recipe-description"
-        >Description:
+        />
+        <label for="recipe-description">Description:</label>
         <textarea
           id="recipe-description"
           placeholder="Enter the description for your recipe"
-          required
         ></textarea>
-      </label>
-
-      <button type="submit">Submit</button>
-
-      <div id="page-timer">Time spent on this page: 0 seconds</div>
-    </form>
-
+        <h3>Ingredients</h3>
+        <div id="ingredients-container"></div>
+        <button type="button" id="add-ingredient-button">
+          Add More Ingredients
+        </button>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>
