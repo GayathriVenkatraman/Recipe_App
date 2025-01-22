@@ -30,7 +30,7 @@ let recipeObject = {
 function displayRecipe(filteredRecipes = recipes) {
   const recipeSection = document.getElementById("recipe-section");
   recipeSection.innerHTML = "";
-  recipeSection.tagName = "UL";
+  //recipeSection.tagName = "UL";
   recipeSection.className = "recipe-list";
 
   if (filteredRecipes.length === 0) {
@@ -94,7 +94,6 @@ function displayRecipe(filteredRecipes = recipes) {
     recipeSection.appendChild(recipeItem);
   });
 }
-const form = document.getElementById("add-recipe-form");
 
 let recipes = [];
 recipes.push(recipeObject);
@@ -102,14 +101,43 @@ recipes.push(recipeObject);
 function addNewRecipe(event) {
   event.preventDefault();
 
-  const title = document.getElementById("recipe-title").value;
-  const picture_url = document.getElementById("recipe-image").value;
-  const ingredientsInput = document.getElementById("recipe-ingredients").value;
-  const description = document.getElementById("recipe-description").value;
+  const title = document.getElementById("recipe-title").value.trim();
+  if (title === "") {
+    alert("Please enter a title!");
+    return;
+  }
 
-  const ingredients = ingredientsInput.split(",").map((item) => {
-    const [name, amount] = item.split("-");
-    return { name: name.trim(), amount: amount.trim() };
+  const picture_url = document.getElementById("recipe-image").value.trim();
+
+  if (picture_url === "") {
+    alert("Please enter a pictural URL!");
+    return;
+  }
+
+  try {
+    const newUrl = new URL(picture_url);
+    if (newUrl.protocol !== "http:" && newUrl.protocol !== "https:") {
+      alert("Enter a valid URL starting with http or https");
+      return;
+    }
+  } catch (error) {
+    alert("Enter a valid URL");
+    return;
+  }
+
+  const description = document
+    .getElementById("recipe-description")
+    .value.trim();
+  if (description === "") {
+    alert("Please enter the description");
+    return;
+  }
+
+  const ingredientRows = document.querySelectorAll(".ingredient-row");
+  const ingredients = Array.from(ingredientRows).map((row) => {
+    const name = row.querySelector(".ingredient-name").value.trim();
+    const amount = row.querySelector(".ingredient-amount").value.trim();
+    return { NAME: name, AMOUNT: amount };
   });
 
   if (ingredients.length < 5) {
@@ -135,7 +163,51 @@ function addNewRecipe(event) {
 
   displayRecipe();
   form.reset();
+  document.getElementById("ingredients-container").innerHTML = "";
+  addIngredientRow();
 }
+
+function addIngredientRow() {
+  const container = document.getElementById("ingredients-container");
+
+  for (let i = 0; i < 5; i++) {
+    const ingredientRow = document.createElement("div");
+    ingredientRow.className = "ingredient-row";
+
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Ingredient Name";
+    nameInput.className = "ingredient-name";
+    nameInput.required = true;
+    ingredientRow.appendChild(nameInput);
+
+    const amountInput = document.createElement("input");
+    amountInput.type = "text";
+    amountInput.placeholder = "Amount";
+    amountInput.className = "ingredient-amount";
+    amountInput.required = true;
+    ingredientRow.appendChild(amountInput);
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      container.removeChild(ingredientRow);
+    });
+    ingredientRow.appendChild(removeButton);
+
+    container.appendChild(ingredientRow);
+  }
+}
+
+const form = document.getElementById("add-recipe-form");
+form.addEventListener("submit", addNewRecipe);
+
+const addIngredientButton = document.getElementById("add-ingredient-button");
+addIngredientButton.addEventListener("click", addIngredientRow);
+
+addIngredientRow();
+
 function findRecipeByTitle(searchTitle) {
   const searchLower = searchTitle.toLowerCase();
   const filteredRecipes = recipes.filter((recipe) =>
@@ -155,7 +227,6 @@ function sortRecipeByIngredientsCount() {
   recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
   displayRecipe();
 }
-form.addEventListener("submit", addNewRecipe);
 
 sortRecipeByIngredientsCount();
 
