@@ -159,7 +159,7 @@ function addNewRecipe(event) {
   };
 
   recipes.push(newRecipe);
-  sortRecipeByIngredientsCount();
+  //sortRecipesByIngredientCount();
 
   displayRecipe();
   form.reset();
@@ -223,11 +223,14 @@ searchInput.addEventListener("input", (event) => {
   findRecipeByTitle(searchValue);
 });
 
-function sortRecipeByIngredientsCount() {
+function sortRecipesByIngredientCount() {
   recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
   displayRecipe();
 }
 
-sortRecipeByIngredientsCount();
+const sortButton = document.getElementById("sort-button");
+sortButton.addEventListener("click", sortRecipesByIngredientCount);
+
+//sortRecipesByIngredientCount();
 
 displayRecipe();
