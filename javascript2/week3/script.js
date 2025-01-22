@@ -30,7 +30,7 @@ let recipeObject = {
 function displayRecipe(filteredRecipes = recipes) {
   const recipeSection = document.getElementById("recipe-section");
   recipeSection.innerHTML = "";
-  recipeSection.tagName = "UL";
+  //recipeSection.tagName = "UL";
   recipeSection.className = "recipe-list";
 
   if (filteredRecipes.length === 0) {
@@ -94,7 +94,6 @@ function displayRecipe(filteredRecipes = recipes) {
     recipeSection.appendChild(recipeItem);
   });
 }
-const form = document.getElementById("add-recipe-form");
 
 let recipes = [];
 recipes.push(recipeObject);
@@ -102,14 +101,42 @@ recipes.push(recipeObject);
 function addNewRecipe(event) {
   event.preventDefault();
 
-  const title = document.getElementById("recipe-title").value;
-  const picture_url = document.getElementById("recipe-image").value;
-  const ingredientsInput = document.getElementById("recipe-ingredients").value;
-  const description = document.getElementById("recipe-description").value;
+  const title = document.getElementById("recipe-title").value.trim();
+  if (title === "") {
+    alert("Please enter a title!");
+    return;
+  }
+  const picture_url = document.getElementById("recipe-image").value.trim();
 
-  const ingredients = ingredientsInput.split(",").map((item) => {
-    const [name, amount] = item.split("-");
-    return { name: name.trim(), amount: amount.trim() };
+  if (picture_url === "") {
+    alert("Please enter a pictural URL!");
+    return;
+  }
+
+  try {
+    const newUrl = new URL(picture_url);
+    if (newUrl.protocol !== "http:" && newUrl.protocol !== "https:") {
+      alert("Enter a valid URL starting with http or https");
+      return;
+    }
+  } catch (error) {
+    alert("Enter a valid URL");
+    return;
+  }
+
+  const description = document
+    .getElementById("recipe-description")
+    .value.trim();
+  if (description === "") {
+    alert("Please enter the description");
+    return;
+  }
+
+  const ingredientRows = document.querySelectorAll(".ingredient-row");
+  const ingredients = Array.from(ingredientRows).map((row) => {
+    const name = row.querySelector(".ingredient-name").value.trim();
+    const amount = row.querySelector(".ingredient-amount").value.trim();
+    return { NAME: name, AMOUNT: amount };
   });
 
   if (ingredients.length < 5) {
@@ -131,11 +158,55 @@ function addNewRecipe(event) {
   };
 
   recipes.push(newRecipe);
-  sortRecipeByIngredientsCount();
+  //sortRecipesByIngredientCount();
 
   displayRecipe();
   form.reset();
+  document.getElementById("ingredients-container").innerHTML = "";
+  addIngredientRow();
 }
+
+function addIngredientRow() {
+  const container = document.getElementById("ingredients-container");
+
+  for (let i = 0; i < 5; i++) {
+    const ingredientRow = document.createElement("div");
+    ingredientRow.className = "ingredient-row";
+
+    const nameInput = document.createElement("input");
+    nameInput.type = "text";
+    nameInput.placeholder = "Ingredient Name";
+    nameInput.className = "ingredient-name";
+    nameInput.required = true;
+    ingredientRow.appendChild(nameInput);
+
+    const amountInput = document.createElement("input");
+    amountInput.type = "text";
+    amountInput.placeholder = "Amount";
+    amountInput.className = "ingredient-amount";
+    amountInput.required = true;
+    ingredientRow.appendChild(amountInput);
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      container.removeChild(ingredientRow);
+    });
+    ingredientRow.appendChild(removeButton);
+
+    container.appendChild(ingredientRow);
+  }
+}
+
+const form = document.getElementById("add-recipe-form");
+form.addEventListener("submit", addNewRecipe);
+
+const addIngredientButton = document.getElementById("add-ingredient-button");
+addIngredientButton.addEventListener("click", addIngredientRow);
+
+addIngredientRow();
+
 function findRecipeByTitle(searchTitle) {
   const searchLower = searchTitle.toLowerCase();
   const filteredRecipes = recipes.filter((recipe) =>
@@ -151,71 +222,79 @@ searchInput.addEventListener("input", (event) => {
   findRecipeByTitle(searchValue);
 });
 
-function sortRecipeByIngredientsCount() {
+function sortRecipesByIngredientCount() {
   recipes.sort((a, b) => a.ingredients.length - b.ingredients.length);
   displayRecipe();
 }
-form.addEventListener("submit", addNewRecipe);
 
-sortRecipeByIngredientsCount();
+const sortButton = document.getElementById("sort-button");
+sortButton.addEventListener("click", sortRecipesByIngredientCount);
+
+//sortRecipesByIngredientCount();
 
 displayRecipe();
 
 //!-----Cooking Timer----------!
-
-const timerInput = document.createElement("div");
-timerInput.innerHTML = `
+function initializeCookingTimer() {
+  const timerInput = document.createElement("div");
+  timerInput.innerHTML = `
   <h2>Cooking Timer</h2>
   <lable for="time-input">Enter time in minutes:</lable>
-  <input type="number" id="time-input" min="1" class="timer-input" />
+  <input type="number" id="time-input" min="1" max="120" class="timer-input" />
   <button id="start-timer">Start timer</button>
   <div id="countdown"></div>`;
 
-document.body.appendChild(timerInput);
+  document.body.appendChild(timerInput);
 
-const timeInput = document.getElementById("time-input");
-const startButton = document.getElementById("start-timer");
-const countDownDisplay = document.getElementById("countdown");
+  const timeInput = document.getElementById("time-input");
+  const startButton = document.getElementById("start-timer");
+  const countDownDisplay = document.getElementById("countdown");
 
-let timer;
+  let timer;
 
-function startCookingTimer() {
-  const timeInMinutes = parseInt(timeInput.value);
+  function startCookingTimer() {
+    const timeInMinutes = parseInt(timeInput.value);
+    if (isNaN(timeInMinutes) || timeInMinutes <= 0 || timeInMinutes > 120) {
+      alert("Please enter a valid cooking time between 1 and 120 minutes");
+    }
 
-  if (isNaN(timeInMinutes) || timeInMinutes <= 0) {
-    alert("Please enter a valid cooking time");
+    timeInput.disabled = true;
+    startButton.disabled = true;
+
+    let remainingTime = timeInMinutes * 60;
+    const maxTime = 120 * 60;
+
+    timer = setInterval(() => {
+      if (remainingTime < 0 || remainingTime > maxTime) {
+        clearInterval(timer);
+        countDownDisplay.textContent = "Time is up!";
+        alert("Cooking time is over. Your dish is ready!");
+        playSound();
+        timeInput.disabled = false;
+        startButton.disabled = false;
+        return;
+      }
+
+      const minutes = Math.floor(remainingTime / 60);
+      const seconds = remainingTime % 60;
+
+      countDownDisplay.textContent = `${minutes}:${
+        seconds < 10 ? "0" : ""
+      }${seconds}`;
+
+      remainingTime--;
+    }, 1000);
   }
 
-  timeInput.disabled = true;
-  startButton.disabled = true;
+  function playSound() {
+    const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
+    audio.play();
+  }
 
-  let remainingTime = timeInMinutes * 60;
-
-  timer = setInterval(() => {
-    const minutes = Math.floor(remainingTime / 60);
-    const seconds = remainingTime % 60;
-
-    countDownDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}`;
-
-    remainingTime--;
-
-    if (remainingTime < 0) {
-      clearInterval(timer);
-      countDownDisplay.textContent = "Time is up";
-      alert("Cooking time is over. Your dish is ready");
-      playSound();
-      timeInput.disabled = false;
-      startButton.disabled = false;
-    }
-  }, 1000);
+  startButton.addEventListener("click", startCookingTimer);
 }
 
-function playSound() {
-  const audio = new Audio("https://www.soundjay.com/button/beep-07.wav");
-  audio.play();
-}
-
-startButton.addEventListener("click", startCookingTimer);
+initializeCookingTimer();
 
 const pageTimerDisplay = document.getElementById("page-timer");
 
