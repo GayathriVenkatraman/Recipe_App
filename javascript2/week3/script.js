@@ -242,12 +242,14 @@ function initializeCookingTimer() {
   <lable for="time-input">Enter time in minutes:</lable>
   <input type="number" id="time-input" min="1" max="120" class="timer-input" />
   <button id="start-timer">Start timer</button>
+  <button id="stop-timer">Stop timer</button>
   <div id="countdown"></div>`;
 
   document.body.appendChild(timerInput);
 
   const timeInput = document.getElementById("time-input");
   const startButton = document.getElementById("start-timer");
+  const stopButton = document.getElementById("stop-timer");
   const countDownDisplay = document.getElementById("countdown");
 
   let timer;
@@ -272,6 +274,7 @@ function initializeCookingTimer() {
         playSound();
         timeInput.disabled = false;
         startButton.disabled = false;
+        timeInput.value = "";
         return;
       }
 
@@ -291,7 +294,18 @@ function initializeCookingTimer() {
     audio.play();
   }
 
+  function stopCookingTimer() {
+    clearInterval(timer);
+    countDownDisplay.textContent = "Timer stopped!";
+    timeInput.disabled = false;
+
+    startButton.disabled = false;
+    timeInput.value = "";
+    return;
+  }
+
   startButton.addEventListener("click", startCookingTimer);
+  stopButton.addEventListener("click", stopCookingTimer);
 }
 
 initializeCookingTimer();
