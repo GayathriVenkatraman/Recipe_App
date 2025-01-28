@@ -7,77 +7,79 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Recipe Checker</h1>
-    <div id="logo-img">
-      <img src="./images/logo.jpeg" alt="Recipe App Image" />
-    </div>
-    <div id="search-recipe">
-      <h2>Search for a Recipe</h2>
-      <label for="search-element">Search for recipes</label>
-      <input type="search" name="search-bar" id="search-element" />
-    </div>
-    <div id="page-timer">Time spent: 0 seconds</div>
-    <div id="controls">
-      <button id="sort-button">Sort Recipes by Ingredients</button>
-    </div>
-    <div id="search-ingredient">
-      <h2>Search for an Ingredient</h2>
-      <label for="ingredient-name">Search for Ingredient</label>
-      <input type="search" name="ingredient-name" id="ingredient-name" />
-      <button
-        id="search-ingredient-button"
-        type="submit"
-        onclick="searchIngredientName()"
-      >
-        Search
-      </button>
-    </div>
-    <div id="recipe-section"></div>
-    <div id="add-recipe-form-container">
-      <form id="add-recipe-form">
-        <h2>Add a new recipe</h2>
-        <label for="recipe-title">Title:</label>
-        <input
-          id="recipe-title"
-          placeholder="Enter your title for the recipe"
-          type="text"
-        />
-        <label for="recipe-image">Picture_url:</label>
-        <input
-          id="recipe-image"
-          placeholder="Enter the image link of your recipe"
-          type="text"
-        />
-        <label for="recipe-description">Description:</label>
-        <textarea
-          id="recipe-description"
-          placeholder="Enter the description for your recipe"
-        ></textarea>
-        <div id="ingredients-image">
-          <img src="images/ingredients-image.jpg" alt="ingredients-image" />
-        </div>
-        <h3>Ingredients</h3>
-        <div id="ingredients-container"></div>
-        <button type="button" id="add-ingredient-button">
-          Add More Ingredients
+    <div id="container">
+      <h1>Recipe Checker</h1>
+      <div id="logo-img">
+        <img src="./images/logo.jpeg" alt="Recipe App Image" />
+      </div>
+      <div id="search-recipe">
+        <h2>Search for a Recipe</h2>
+        <label for="search-element">Search for recipes</label>
+        <input type="search" name="search-bar" id="search-element" />
+      </div>
+      <div id="page-timer">Time spent: 0 seconds</div>
+      <div id="controls">
+        <button id="sort-button">Sort Recipes by Ingredients</button>
+      </div>
+      <div id="search-ingredient">
+        <h2>Search for an Ingredient</h2>
+        <label for="ingredient-name">Search for Ingredient</label>
+        <input type="search" name="ingredient-name" id="ingredient-name" />
+        <button
+          id="search-ingredient-button"
+          type="submit"
+          onclick="searchIngredientName()"
+        >
+          Search
         </button>
+      </div>
+      <div id="recipe-section"></div>
+      <div id="add-recipe-form-container">
+        <form id="add-recipe-form">
+          <h2>Add a new recipe</h2>
+          <label for="recipe-title">Title:</label>
+          <input
+            id="recipe-title"
+            placeholder="Enter your title for the recipe"
+            type="text"
+          />
+          <label for="recipe-image">Picture_url:</label>
+          <input
+            id="recipe-image"
+            placeholder="Enter the image link of your recipe"
+            type="text"
+          />
+          <label for="recipe-description">Description:</label>
+          <textarea
+            id="recipe-description"
+            placeholder="Enter the description for your recipe"
+          ></textarea>
+          <div id="ingredients-image">
+            <img src="images/ingredients-image.jpg" alt="ingredients-image" />
+          </div>
+          <h3>Ingredients</h3>
+          <div id="ingredients-container"></div>
+          <button type="button" id="add-ingredient-button">
+            Add More Ingredients
+          </button>
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    <div id="set-timer">
-      <h2>Cooking Timer</h2>
-      <label for="time-input">Enter time in minutes:</label>
-      <input
-        type="number"
-        id="time-input"
-        min="1"
-        max="120"
-        class="timer-input"
-      />
-      <button id="start-timer">Start timer</button>
-      <button id="stop-timer">Stop timer</button>
-      <div id="countdown"></div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div id="set-timer">
+        <h2>Cooking Timer</h2>
+        <label for="time-input">Enter time in minutes:</label>
+        <input
+          type="number"
+          id="time-input"
+          min="1"
+          max="120"
+          class="timer-input"
+        />
+        <button id="start-timer">Start timer</button>
+        <button id="stop-timer">Stop timer</button>
+        <div id="countdown"></div>
+      </div>
     </div>
     <script src="./script.js"></script>
   </body>

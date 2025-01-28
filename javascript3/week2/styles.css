@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f8f9fa;
-  background-image: url("images/background\ image.avif");
+  background-image: url("images/background\ image2.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -161,6 +161,11 @@ a:hover {
   list-style-type: none;
 }
 
+.recipe-item {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
 .recipe-card {
   background: pink;
   border: 1px solid #dee2e6;
@@ -210,12 +215,9 @@ a:hover {
   padding: 0;
 }
 
-.recipe-item {
-  margin-bottom: 20px;
-}
-
 .ingredients,
 .description {
+  text-align: left;
   margin: 0 16px 16px;
   padding-left: 20px;
   list-style: square;
@@ -366,11 +368,139 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+  /* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    background-image: url("images/background\ image.avif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  } */
+  .container {
+    padding: 10px;
+  }
+
+  #search-recipe {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 2.5px;
+    width: 100%;
+  }
+
+  #search-recipe input {
+    padding: 10px;
+    width: 70%;
+    align-content: center;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  #search-ingredient {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-content: center;
+    margin-top: 500px;
+    margin-right: -30px;
+    padding: 10px;
+    width: 100%;
+  }
+  #search-ingredient button {
+    margin-top: -5px;
+    margin-right: 400px;
+  }
+
+  #logo-img {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-left: 10px;
+  }
+
+  #logo-img img {
+    align-items: center;
+  }
+
   #recipe-section {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .recipe-card {
+    padding: 15px;
+  }
+
+  #add-recipe-form-container {
+    display: grid;
+    grid-template-columns: inherit;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    margin-left: 20px;
   }
 
   #add-recipe-form {
-    gap: 10px;
+    margin-left: auto;
+  }
+  #add-recipe-form h2 {
+    margin-right: 50px;
+    text-align: left;
+  }
+  #add-recipe-form h3 {
+    margin-right: 50px;
+    text-align: left;
+  }
+
+  #add-recipe-form input,
+  #add-recipe-form textarea,
+  #search-recipe input {
+    font-size: 1rem;
+    padding: 10px;
+    width: 40%;
+  }
+
+  #ingredients-container {
+    width: 50%;
+    gap: 15px;
+  }
+
+  .ingredient-row {
+    flex-direction: column;
+  }
+
+  .ingredient-name,
+  .ingredient-amount {
+    flex: 1 1 100%;
+    font-size: 0.9rem;
+  }
+
+  .ingredient-row button {
+    width: 50%;
+    text-align: center;
+  }
+  #add-recipe-form button {
+    width: 20%;
+    padding: 10px;
+    align-items: center;
+  }
+
+  #sort-button {
+    width: 50%;
+    padding: 10px;
+    margin-top: 125px;
+    margin-left: 85px;
+  }
+
+  #set-timer {
+    padding: 10px;
   }
 }
